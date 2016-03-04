@@ -1,13 +1,16 @@
-def wsgi_app(environ,start_response):
+def app (environ,start_response):
 #try:
 	status = '200 OK'
-	headers= [('Content-Type','text/plain')]
+	headers= [('Content-type','text/plain')]
 #      body = []
 #	for key,value in environ.items90:
 #         body.append('%s=%r'%(key,value))
 #
-	body='\r\n'.join(environ['QUERY_STRING'].split('&'))	
 	start_response(status,headers)
+#	resp = environ['QUERY_STRING'].split('&')
+#	resp = [item+"\r\n" for item in resp]
+#	return resp
+	body="\r\n".join(environ['QUERY_STRING'].split('&'))	
 	return [body]
 #except:
 #	status = "500 Errorer"
