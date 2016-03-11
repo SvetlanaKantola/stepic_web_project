@@ -6,20 +6,26 @@
 #APP_MODULE='hello:wsgi_app'
 #D=true
 #t=30
- CONFIG = {
- 'mode': 'wsgi',
- 'working_dir': '/home/box/web/ask',
+# CONFIG = {
+# 'mode': 'wsgi',
+# 'working_dir': '/home/box/web/ask',
 # 'python': '/usr/bin/python',
-'args':(
-	'--bind=0.0.0.0:8000',
-	'--workers=16',
-	'--timeout=60',
-	'ask.wsgi',
+#'args':(
+#	'--bind=0.0.0.0:8000',
+#	'--workers=16',
+#	'--timeout=60',
+#	'ask.wsgi',
 #	'app.module',
-),
-}
-#bind = "0.0.0.0:8080"
-#pythonpath='/home/box/web'
+#),
+#}
+bind = "0.0.0.0:8000"
+pythonpath='/home/box/web/ask'
+accesslog = "/home/box/web/gunicorn_a.log"
+errorlog = "/home/box/web/gunicorn_e.log"
+pidfile = "/home/box/web/gunicorn_p.pid"
+workers=16
+timeout=60
+
 #
 # bind = "unix:/home/proft/projects/blog/run/blog.socket"
 #workers = 5
