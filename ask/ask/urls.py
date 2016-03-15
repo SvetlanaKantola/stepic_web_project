@@ -19,7 +19,7 @@ from ask.qa import views
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+#    url(r'^admin/', admin.site.urls),
 #    url(r'^$', views, name='test'),
     url(r'^$', 'qa.views.test'),
     url(r'^login/', 'qa.views.test'),
@@ -30,3 +30,12 @@ urlpatterns = [
     url(r'^popular/', 'qa.views.test'),
     url(r'^new/', 'qa.views.test'),
 ]
+#urlpatterns = patterns('qa.views',
+#    url(r'^$', 'test'),
+#    url(r'^login/', 'test', name ='login'),
+#    url(r'^signup/', 'test', name ='signup'),
+#    url(r'^questions/\d+/.*$', 'test', name ='question'),
+#    url(r'^ask/', 'test', name ='ask'),
+#    url(r'^popular/', 'test', name ='popular'),
+#    url(r'^new/', 'test', name ='new'),
+#)
