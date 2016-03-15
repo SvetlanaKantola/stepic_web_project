@@ -2,7 +2,7 @@
 
 from django.http import HttpResponse 
 def test(request, *args, **kwargs):
-    return HttpResponse('OK')
+    return HttpResponse('200 OK')
 
 #def test (environ,start_response):
 #	status = '200 OK'
