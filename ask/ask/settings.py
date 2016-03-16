@@ -121,6 +121,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 try:
-	from ask import *
+	from ask.local_setting import *
 except ImportError:
 	pass
