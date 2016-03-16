@@ -20,5 +20,6 @@ urlpatterns = [
     # Examples:
     # url(r'^$', 'ask.views.home', name='home'),
 #    url(r'^$', include('ask.qa.urls')),
-    url(r'^$', include('qa.urls')),
+    url(r'^', include('qa.urls')),
+    url(r'^admin/', admin.site.urls),
 ]
