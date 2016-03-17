@@ -1,46 +1,49 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.http import require_GET
+#from django.views.decorators.http import require_GET
 from django. core. paginator import Paginator
 from django.http import HttpResponse, Http404 
+from django.contrib.auth.models import User
 
 from qa.models import Question, Answer
 
-@require_GET
-def main(request, *args, **kwargs):
+#@require_GET
+def pagebyindex(request, *args, **kwargs):
     try:    
-	questions = Question.objects.order_by('-id')
+	questions = Question.objects.all().order_by('-id')
     except Question.DoesNotExist:
 	raise Http404   		
     page = request.GET.get('page', 1)    
     paginator = Paginator(questions, 10)
-    paginator.baseurl = '/?page='
+#    paginator.baseurl = '/?page='
     page = paginator.page(page)
-    return render(request,'questions.html',{
+    return render(request,'qa/all.html',{
 	'questions': page.object_list,
-	'paginator': paginator, 'page': page,
+	'paginator': paginator,
+	'page': page,
 	})
 
-@require_GET
-def populars(request, *args, **kwargs):
+#@require_GET
+def popular(request, *args, **kwargs):
     try:    
-	populars = Question.objects.order_by('-rating')
+	questions = Question.objects.all().order_by('-rating')
     except Question.DoesNotExist:
 	raise Http404   		
     page = request.GET.get('page', 1)    
     paginator = Paginator(questions, 10)
-    paginator.baseurl = '/popular/?page='
+#    paginator.baseurl = '/popular/?page='
     page = paginator.page(page)
-    return render(request,'questions.html',{
+    return render(request,'qa/all.html',{
 	'questions': page.object_list,
-	'paginator': paginator, 'page': page,
+	'paginator': paginator, 
+	'page': page,
 	})
 
-@require_GET
+#@require_GET
 def question(request, *args, **kwargs):
     id = kwargs['id']
     question = get_object_or_404(Question, id=id)		
     answers = Answer.objects.filter(question=question)
-    return render(request,'question.html',{
+    return render(request,'qa/question.html',{
 	'question': question,
 	'answers': answers,
 	})

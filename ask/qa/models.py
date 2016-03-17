@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 
 
 class Question(models.Model):
-	title = models.CharField(max_length=100)
-	text = models.CharField(max_length=255)
-	added_at = models.DateTimeField(auto_now_add=True)
+	title = models.CharField(max_length=100, null=True)
+	text = models.CharField(max_length=255, null=True)
+	added_at = models.DateTimeField(auto_now_add=True, null=True)
 	rating = models.IntegerField(default=1)
-	author =  models.CharField(max_length=20)
-	likes = models.ForeignKey(User,default=1)
+	author =  models.CharField(User, null=True)
+	likes = models.ForeignKey(max_length=1000, null=True)
 
 	def __unicode__(self) :
 		return self.title
@@ -20,10 +20,10 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-	text = models.CharField(max_length=100)
-	added_at =  models.DateTimeField(auto_now_add=True)
-	question = models.ForeignKey(Question)
-	author = models.CharField(max_length=20)
+	text = models.CharField(max_length=100, null=True)
+	added_at =  models.DateTimeField(auto_now_add=True, null=True)
+	question = models.ForeignKey(Question, null=True, on_delete=models.SET_NULL)
+	author = models.CharField(User, null=True)
 	
 	def __unicode__(self) :
 		return self.author + self.added_at + self.text
