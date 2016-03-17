@@ -60,9 +60,9 @@ WSGI_APPLICATION = 'ask.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'qabdsk',
-        'USER': 'qask',
-        'PASSWORD': '345345',
+        'NAME': 'qa',
+        'USER': 'box',
+        'PASSWORD': '1234',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
