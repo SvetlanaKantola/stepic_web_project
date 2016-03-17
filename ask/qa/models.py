@@ -3,17 +3,17 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 
-class Post(object):                                      # 1
-    title = models.CharField(max_length=255)             # 2
-    content = models.TextField()                         # 3
-    creation_date = models.DateTimeField(blank=True)     # 4
-    def __unicode__(self):                               # 5
-        return self.title()                              # 6
-    def get_absolute_url(self):                          # 7
-        return '/question/%d/' % self.pk                 # 8
-    class Meta:                                          # 9
-        db_table = 'qa__question'                        # 10
-        ordering = ['-creation_date']                    # 11
+#class Post(object):                                      
+#    title = models.CharField(max_length=255)             
+#    content = models.TextField()                         
+#    creation_date = models.DateTimeField(blank=True)     
+#    def __unicode__(self):                               
+#        return self.title()                              
+#    def get_absolute_url(self):                          
+#        return '/question/%d/' % self.pk                 
+#    class Meta:                                          
+#        db_table = 'qa__question'                        
+#        ordering = ['-creation_date']                    
 
 class Question(models.Model):
 	title = models.CharField(max_length=100, null=True)

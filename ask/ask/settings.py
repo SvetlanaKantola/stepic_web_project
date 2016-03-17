@@ -67,6 +67,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+BASE_DIR=os.path.dirname(BASE_DIR)
 
 TEMPLATE_DIRS = (
 	BASE_DIR + '/templates',	
