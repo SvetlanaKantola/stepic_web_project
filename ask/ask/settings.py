@@ -30,13 +30,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'qa',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'qa',
+    'ask', 		
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,13 +61,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'qa',
-        'USER': 'boxuser',
+        'USER': 'box',
         'PASSWORD': '1234',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
-BASE_DIR=os.path.dirname(BASE_DIR)
 
 TEMPLATE_DIRS = (
 	BASE_DIR + '/templates',	
