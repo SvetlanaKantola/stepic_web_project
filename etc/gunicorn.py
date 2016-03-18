@@ -9,6 +9,6 @@ CONFIG = {
 	'--log-level=debug',
 	'--access-logfile=/home/box/web/ask/la.log',
 	'--error-logfile=/home/box/web/ask/err.log',
-        'ask',
+        'ask.wsgi',
     ),
 }
