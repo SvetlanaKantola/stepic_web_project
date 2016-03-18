@@ -42,5 +42,3 @@ class Answer(models.Model):
 	
 #	def __unicode__(self) :
 #		return self.author + self.added_at + self.text
-
-
