@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django. core. paginator import Paginator
 from django.http import HttpResponse, Http404 
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 from qa.models import Question, Answer
 
@@ -39,13 +40,16 @@ def popular(request, *args, **kwargs):
 	})
 
 #@require_GET
-def question(request, *args, **kwargs):
-    id = kwargs['id']
-    question = get_object_or_404(Question, id=id)		
-    answers = Answer.objects.filter(question=question)
-    return render(request,'qa/question.html',{
-	'question': question,
-	'answers': answers,
+def question(request, id):
+
+	try:
+		question = Question.objects.get(id=id)
+	except ObjectDoesNotExist:
+		raise Http404(request)
+	return render(request, "qa/question.html", {
+		'title':question.title	,
+		'text':question.text,
+		"answers" : question.answer_set.all(),
 	})
 
 def test(request, *args, **kwargs):
