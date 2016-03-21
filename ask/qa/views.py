@@ -47,9 +47,10 @@ def question(request, id):
 	except ObjectDoesNotExist:
 		raise Http404(request)
 	try:
-		answers=Answer.objects.filter(question=question)
-	except ObjectDoesNotExist:
-		raise Http404(request)
+#		answers=Answer.objects.filter(question=question)
+#	except ObjectDoesNotExist:
+#		raise Http404(request)
+	answers=question.answer_set.all()
 	return render(request, "qa/question.html", {
 		'title':question.title	,
 		'text':question.text,

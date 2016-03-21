@@ -16,10 +16,10 @@ from django.contrib.auth.models import User
 #        ordering = ['-creation_date']                    
 
 class Question(models.Model):
-	title = models.CharField(max_length=100, null=True)
-	text = models.CharField(max_length=255, null=True)
+	title = models.CharField(max_length=200, null=True)
+	text = models.CharField(max_length=1000, null=True)
 	added_at = models.DateTimeField(auto_now_add=True, null=True)
-	rating = models.IntegerField(default=1)
+	rating = models.IntegerField(default=0)
 #	author =  models.CharField(max_length=20)
 #	likes = models.ForeignKey(User,default=1)
 	author = models.ForeignKey(User, null=True)
@@ -33,7 +33,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-	text = models.CharField(max_length=100, null=True)
+	text = models.CharField(max_length=1000, null=True)
 	added_at =  models.DateTimeField(auto_now_add=True, null=True)
 #	question = models.ForeignKey(Question)
 #	author = models.CharField(max_length=20)
