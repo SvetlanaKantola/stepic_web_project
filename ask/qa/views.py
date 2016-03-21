@@ -76,8 +76,9 @@ def ask(request):
 	print("is : " + str(request.user.is_authenticated()))
 	if request.method == 'POST':
 		form = AskForm(request.POST)
+#		if form.is_valid():	
 		q = form.save()
-		q.author = reques.user
+		q.author = request.user
 		q.save()
 		return HttpResponseRedirect('/question/' + str(q.id))
 	else:
