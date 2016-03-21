@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 #from django.views.decorators.http import require_GET
 from django. core. paginator import Paginator
-from django.http import HttpResponse, Http404 
+from django.http import HttpResponse, Http404, HttpResponseRedirect 
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from qa.forms import AskForm, AnswerForm
@@ -60,6 +60,18 @@ def question(request, id):
 		"form":form
 	})
 
+def answer(request):
+	if request.method == 'POST':
+		form = AnswerForm(request.POST)
+		q.author = reques.user
+		q = form.save()
+		q.author = reques.user
+		q.save()
+		return HttpResponseRedirect('/question/' + str(q.question_id))
+	#return render(request, "qa/ask.html", {
+	#	"form":form
+	#})
+	
 def ask(request):
 	print("is : " + str(request.user.is_authenticated()))
 	if request.method == 'POST':
