@@ -4,6 +4,7 @@ from django. core. paginator import Paginator
 from django.http import HttpResponse, Http404 
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from qa.forms import AskForm, AnswerForm
 
 from qa.models import Question, Answer
 
@@ -46,16 +47,30 @@ def question(request, id):
 		question = Question.objects.get(id=id)
 	except ObjectDoesNotExist:
 		raise Http404(request)
-	try:
+#	try:
 #		answers=Answer.objects.filter(question=question)
 #	except ObjectDoesNotExist:
 #		raise Http404(request)
 	answers=question.answer_set.all()
+	form = AnswerForm()
 	return render(request, "qa/question.html", {
 		'title':question.title	,
 		'text':question.text,
 		"answers" : answers,
+		"form":form
 	})
 
+def ask(request):
+	print("is : " + str(request.user.is_authenticated()))
+	if request.method == 'POST':
+		form = AskForm(request.POST)
+		q = form.save()
+		q.author = reques.user
+		q.save()
+		return HttpResponseRedirect('/question/' + str(q.id))
+	else:
+		form = AskForm()
+	return render(request, "qa/ask.html" , {'form': form})
+	
 def test(request, *args, **kwargs):
     return HttpResponse('200 OK')
