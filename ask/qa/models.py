@@ -3,17 +3,17 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-#class Post(object):                                      
-#    title = models.CharField(max_length=255)             
-#    content = models.TextField()                         
-#    creation_date = models.DateTimeField(blank=True)     
-#    def __unicode__(self):                               
-#        return self.title()                              
-#    def get_absolute_url(self):                          
-#        return '/question/%d/' % self.pk                 
-#    class Meta:                                          
-#        db_table = 'qa__question'                        
-#        ordering = ['-creation_date']                    
+class Post(object):                                      
+    title = models.CharField(max_length=255)             
+    content = models.TextField()                         
+    creation_date = models.DateTimeField(blank=True)     
+    def __unicode__(self):                               
+        return self.title()                              
+    def get_absolute_url(self):                          
+        return '/question/%d/' % self.pk                 
+    class Meta:                                          
+        db_table = 'qa__question'                        
+        ordering = ['-creation_date']                    
 
 class Question(models.Model):
 	title = models.CharField(max_length=200, null=True)

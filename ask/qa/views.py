@@ -81,7 +81,8 @@ def ask(request):
 		if form.is_valid():	
 			q = form.save()
 			return HttpResponseRedirect('/question/' + str(q.id) +'/')
-		else
+		else:
+			return HttpResponseRedirect('/question/123/')
 	else:
 		form = AskForm()
 	return render(request, "qa/ask.html" , {'form': form})
