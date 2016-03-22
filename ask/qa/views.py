@@ -62,27 +62,30 @@ def question(request, id):
 	})
 
 def answer(request):
+	user = request.user
 	if request.method == 'POST':
 		form = AnswerForm(request.POST)
-		q.author = reques.user
-		q = form.save()
-		q.author = reques.user
-		q.save()
-		return HttpResponseRedirect('/question/' + str(q.question_id))
-	#return render(request, "qa/ask.html", {
-	#	"form":form
-	#})
+		if form.is_valid():
+			if user.is_authenticated() :
+				form.author = user
+				answer = form.save()
+				url = '/question/' + form.question
+				return HttpResponseRedirect(url)
+			else :
+				raise Http404
 	
 def ask(request):
-	print("is : " + str(request.user.is_authenticated()))
+	user = request.user
 	if request.method == 'POST':
 		form = AskForm(request.POST)
-		form.user = request.user
 		if form.is_valid():	
-			q = form.save()
-			return HttpResponseRedirect('/question/' + str(q.id) +'/')
-		else:
-			return HttpResponseRedirect('/question/123/')
+			if user.is_authenticated() :
+				form.author = user
+				quest = form.save()
+				url = quest.get_absolute_url()
+				return HttpResponseRedirect(url)
+			else :
+				raise Http404
 	else:
 		form = AskForm()
 	return render(request, "qa/ask.html" , {'form': form})
