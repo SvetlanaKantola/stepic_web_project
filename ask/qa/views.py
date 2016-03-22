@@ -73,7 +73,7 @@ def ask(request):
 	else:
 		form = AskForm()
 	return render(request, "qa/ask.html" , {'form': form})
-
+	
 def signup(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect('/'); 
@@ -85,6 +85,7 @@ def signup(request):
 		u.save()
 		q = authenticate(username=u.username, password=p)
 		print(q)
+		form.user = u #
 		login(request, q)
 		r = HttpResponseRedirect('/')
 		return r
@@ -93,6 +94,8 @@ def signup(request):
 	return render(request, "qa/signup.html" , {'form': form})
 
 def log(request):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('/'); 
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		s = form["username"].value()
