@@ -1,38 +1,64 @@
-from django.shortcuts import render
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from qa.models import Question, Answer
-from django.core.paginator import Paginator
-from django.core.exceptions import ObjectDoesNotExist
-from qa.forms import AskForm, AnswerForm, UserForm, LoginForm
+from django.shortcuts import render, get_object_or_404, redirect
+#from django.views.decorators.http import require_GET
+from django. core. paginator import Paginator  , EmptyPage
+from django.http import HttpResponse, Http404, HttpResponseRedirect 
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.core.exceptions import ObjectDoesNotExist
+from qa.forms import AskForm, AnswerForm
+from django.contrib.auth import authenticate
 
-def test(request, *args, **kwargs):
-	return HttpResponse('OK')
+from qa.models import Question, Answer
 
-
-def all_q(request, *args, **kwargs):
-	questions = Question.objects.all().order_by("-id")
-	page = request.GET.get('page', 1)
-	paginator = Paginator(questions, request.GET.get('limit', 10))
-	page = paginator.page(page)	
-	return render(request, "qa/all.html", 
-	{	
-		'questions': page.object_list,
-		'paginator': paginator,
-		'page': page
+#@require_GET
+def pagebyindex(request, *args, **kwargs):
+    try:    
+	questions = Question.objects.all().order_by('-id')
+    except Question.DoesNotExist:
+	raise Http404   		
+    page = request.GET.get('page', 1)    
+    paginator = Paginator(questions, 10)
+#    paginator.baseurl = '/?page='
+    page = paginator.page(page)
+    return render(request,'qa/all.html',{
+	'questions': page.object_list,
+	'paginator': paginator,
+	'page': page,
 	})
 
+#@require_GET
 def popular(request, *args, **kwargs):
-	questions = Question.objects.all().order_by("-rating")
-	page = request.GET.get('page', 1)
-	paginator = Paginator(questions, request.GET.get('limit', 10))
-	page = paginator.page(page)	
-	return render(request, "qa/all.html", 
-	{	
-		'questions': page.object_list,
-		'paginator': paginator,
-		'page': page
+    try:    
+	questions = Question.objects.all().order_by('-rating')
+    except Question.DoesNotExist:
+	raise Http404   		
+    page = request.GET.get('page', 1)    
+    paginator = Paginator(questions, 10)
+#    paginator.baseurl = '/popular/?page='
+    page = paginator.page(page)
+    return render(request,'qa/all.html',{
+	'questions': page.object_list,
+	'paginator': paginator, 
+	'page': page,
+	})
+
+#@require_GET
+def question(request, id):
+
+	try:
+		question = Question.objects.get(id=id)
+	except ObjectDoesNotExist:
+		raise Http404(request)
+#	try:
+#		answers=Answer.objects.filter(question=question)
+#	except ObjectDoesNotExist:
+#		raise Http404(request)
+	answers=question.answer_set.all()
+	form = AnswerForm()
+	return render(request, "qa/question.html", {
+		'title':question.title	,
+		'text':question.text,
+		"answers" : answers,
+		"form":form
 	})
 
 def answer(request):
@@ -46,69 +72,19 @@ def answer(request):
 	#return render(request, "qa/ask.html", {
 	#	"form":form
 	#})
-
-def question(request, id):
-
-	try:
-		question = Question.objects.get(id=id)
-	except ObjectDoesNotExist:
-		raise Http404(request)
-	form = AnswerForm()
-	return render(request, "qa/question.html", {
-		'title':question.title	,
-		'text':question.text,
-		"ans" : question.answer_set.all(),
-		"form":form
-	})
 	
-
 def ask(request):
 	print("is : " + str(request.user.is_authenticated()))
 	if request.method == 'POST':
 		form = AskForm(request.POST)
-		q = form.save()
-		q.author = reques.user
-		q.save()
-		return HttpResponseRedirect('/question/' + str(q.id))
+		form.user = request.user
+		if form.is_valid():	
+			q = form.save()
+			return HttpResponseRedirect('/question/' + str(q.id) +'/')
+		else
 	else:
 		form = AskForm()
 	return render(request, "qa/ask.html" , {'form': form})
 	
-def signup(request):
-	if request.user.is_authenticated():
-		return HttpResponseRedirect('/'); 
-	if request.method == 'POST':
-		form = UserForm(request.POST)
-		s = form["username"].value()
-		p = form["password"].value()
-		u = User.objects.create_user(s,"ss",p)
-		u.save()
-		q = authenticate(username=u.username, password=p)
-		print(q)
-		form.user = u #
-		login(request, q)
-		r = HttpResponseRedirect('/')
-		return r
-	else:
-		form = UserForm()
-	return render(request, "qa/signup.html" , {'form': form})
-
-def log(request):
-	if request.user.is_authenticated():
-		return HttpResponseRedirect('/'); 
-	if request.method == 'POST':
-		form = LoginForm(request.POST)
-		s = form["username"].value()
-		p = form["password"].value()
-		print(s)
-		try:
-			q = authenticate(username=u.username, password=p)
-			print(q)
-			login(request, q)
-		except ObjectDoesNotExist:
-			raise Http404(request)
-		
-		return HttpResponseRedirect('/')
-	else:
-		form = LoginForm()
-	return render(request, "qa/login.html" , {'form': form})
+def test(request, *args, **kwargs):
+    return HttpResponse('200 OK')
