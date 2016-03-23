@@ -1,10 +1,10 @@
 def app(environ, start_response):
-      data = b"Hello, World!\n"
-      args = environ['QUERY_STRING']
-      args = args.replace("&", "\n")
-      start_response("200 OK", [
-          ("Content-Type", "text/plain"),
-          ("Content-Length", str(len(args)))
-      ])
-      return iter([args])
+    body = '\n'.join(i for i in environ.get("QUERY_STRING").split('&'))
+    status = '200 OK'
+    headers = [('Content-Type', 'text/plain')]
+    start_response(status, headers)
+    return [body]
 
+# environ = {"QUERY_STRING": "sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8&client=ubuntu"}
+# body = '\n'.join(i for i in environ.get("QUERY_STRING").split('&'))
+# print(body)
