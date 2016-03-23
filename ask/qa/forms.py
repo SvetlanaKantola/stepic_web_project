@@ -6,6 +6,9 @@ class AskForm(forms.Form):
 	title = forms.CharField(max_length = 255) 
 	text = forms.CharField(widget=forms.Textarea)
 	author = 1
+	def __init__(self,user,**kwargs):
+		self._user = user
+		super(AskForm,self).__init__(**kwargs)
 	def clean_title(self) :
 		title = self.cleaned_data['title']
 		return title
@@ -15,6 +18,7 @@ class AskForm(forms.Form):
 		return text
 		
 	def save(self):
+		self.cleaned_data['author']=self._user
 		quest = Question.objects.create(title=self.cleaned_data['title'], text=self.cleaned_data['text'], author=self.author)
 		#quest.save()
 		return quest

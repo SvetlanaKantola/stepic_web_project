@@ -77,7 +77,7 @@ def answer(request):
 def ask(request):
 	user = request.user
 	if request.method == 'POST':
-		form = AskForm(request.POST)
+		form = AskForm(user,request.POST)
 		if form.is_valid():	
 			if user.is_authenticated() :
 				form.author = user
@@ -87,7 +87,7 @@ def ask(request):
 			else :
 				raise Http404
 	else:
-		form = AskForm()
+		form = AskForm(user)
 	return render(request, "qa/ask.html" , {'form': form})
 	
 def test(request, *args, **kwargs):
