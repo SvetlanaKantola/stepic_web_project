@@ -1,0 +1,10 @@
+<head></head>
+<body>
+{% for post in posts %}
+<h1>{{ post.title }}</h1>
+{% endfor %}
+{% for p in paginator.page_range %}
+<a href="{{ paginator.baseurl }}{{ p }}">{{ p }}</a>{% if p != paginator.num_pages %},{% endif %}
+{% endfor %}
+</body>
+</html>

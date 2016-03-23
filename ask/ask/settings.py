@@ -12,12 +12,15 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+TEMPLATE_DIRS = (
+    '/home/box/web/ask/qa/',
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '921-9bp*zpsbsu(g+xk9)tmjmv(0(xczxbqa9r*$c^^e@whs#b'
+SECRET_KEY = 'q95ekb&z2tz$rqyq@_f7fvqj&+^-)loo&(tnh(jcly!6!%$1+f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'qa',
-    'ask', 		
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,20 +59,22 @@ WSGI_APPLICATION = 'ask.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'qa',
-        'USER': 'box',
-        'PASSWORD': '1234',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': '/home/box/web/etc/my.cnf',
+        },
     }
 }
 
-TEMPLATE_DIRS = (
-	BASE_DIR + '/templates',	
-)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
